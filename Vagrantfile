@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
 
   # VirtualBox.
   config.vm.define "virtualbox" do |virtualbox|
-    virtualbox.vm.hostname = "virtualbox-debian10"
-    virtualbox.vm.box = "file://builds/virtualbox-debian10.box"
+    virtualbox.vm.hostname = "virtualbox-deb-g4"
+    virtualbox.vm.box = "file://builds/virtualbox-deb-g4.box"
     virtualbox.vm.network :private_network, ip: "172.16.3.27"
 
     config.vm.provider :virtualbox do |v|

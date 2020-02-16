@@ -2,20 +2,12 @@
 - name: Install basic packages
   apt: 
     pkg:
-      - git
-      - gnupg2
       - vim
       - curl
       - wget
       - zip
       - unzip
-      - postfix
-      - htop
-      - iotop
-      - apt-transport-https
-      - ca-certificates
-      - imagemagick
-      - ufw
+      - git
     state: present
 
 ### Convenience

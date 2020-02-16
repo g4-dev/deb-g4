@@ -18,8 +18,7 @@
     {
       "type": "ansible",
       "playbook_file": "ansible/main.yml",
-      "roles_path": "ansible/roles",
-      "galaxy_file": "ansible/requirements.yml"
+      "roles_path": "ansible/roles"
     },
     {
       "type": "shell",

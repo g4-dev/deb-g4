@@ -5,5 +5,4 @@
 
   roles:
     - role: basics
-    - role: updates
-    - role: geerlingguy.packer-debian
+    - role: packer
