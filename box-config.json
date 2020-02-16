@@ -1,7 +1,9 @@
 {
   "variables": {
+    "cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
     "version": ""
   },
+  "sensitive-variables": ["cloud_token"],
   "provisioners": [
     {
       "type": "shell",
@@ -14,9 +16,10 @@
       "script": "scripts/setup.sh"
     },
     {
-      "type": "ansible-local",
-      "playbook_file": "../shared/main.yml",
-      "galaxy_file": "../shared/requirements.yml"
+      "type": "ansible",
+      "playbook_file": "ansible/main.yml",
+      "roles_path": "ansible/roles",
+      "galaxy_file": "ansible/requirements.yml"
     },
     {
       "type": "shell",
@@ -69,13 +72,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "1024"
+          "2048"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "2"
         ]
       ]
     }
@@ -89,6 +92,7 @@
       {
         "type": "vagrant-cloud",
         "box_tag": "loic-roux-404/deb-g4",
+        "access_token": "{{user `cloud_token`}}",
         "version": "{{user `version`}}"
       }
     ]

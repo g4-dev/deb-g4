@@ -1,5 +1,8 @@
-*/packer_cache/*
-*/output-virtualbox-iso/*
+**/packer_cache/*
+**/output-virtualbox-iso/*
 *.box
 iso/*
 .vagrant/*
+.token
+ansible/roles/geerlingguy.packer-debian/
+/**/.DS_Store

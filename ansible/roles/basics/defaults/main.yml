@@ -1,0 +1,1 @@
+over_commit_memory: 1 # used by redis

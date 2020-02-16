@@ -1,2 +1,0 @@
-permit_root_login: "{% if app_env == 'dev' %} yes {% else %} no {% endif %}"
-over_commit_memory: 1 # used by redis

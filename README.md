@@ -21,13 +21,13 @@ The following software must be installed/present on your local machine before yo
 
 ## Usage
 
-Make sure all the required software (listed above) is installed, then cd into one of the box directories and run:
+- Make sure all the required software
+- create a `.token` file and put your user token to push image on vagrant cloud
+- then run :
 
-    $ packer build -var 'version=1.2.0' box-config.json
+        make build
 
 After a few minutes, Packer should tell you the box was generated successfully, and the box was uploaded to Vagrant Cloud.
-
-> **Note**: This configuration includes a post-processor that pushes the built box to Vagrant Cloud (which requires a `VAGRANT_CLOUD_TOKEN` environment variable to be set); remove the `vagrant-cloud` post-processor from the Packer template to build the box locally and not push it to Vagrant Cloud. You don't need to specify a `version` variable either, if not using the `vagrant-cloud` post-processor.
 
 ## Testing built boxes
 
