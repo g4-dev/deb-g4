@@ -5,4 +5,4 @@
 
   roles:
     - role: basics
-    - role: packer
+    # - role: packer # enable to include vbox guest additions in VM
