@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+
+  pre_tasks:
+
+  roles:
+    - { role: basics }
+    - { role: updates }
+
+    - role: geerlingguy.packer-debian
+      when: ansible_os_family == 'Debian'

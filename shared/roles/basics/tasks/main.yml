@@ -1,0 +1,57 @@
+### Install basic system packages
+- name: Install basic packages
+  apt: 
+    pkg:
+      - git
+      - gnupg2
+      - vim
+      - curl
+      - wget
+      - zip
+      - unzip
+      - postfix
+      - htop
+      - iotop
+      - apt-transport-https
+      - ca-certificates
+      - imagemagick
+      - ufw
+    state: present
+
+### Convenience
+- name: Configure inputrc / vimrc and motd for root
+  become: yes
+  template: 
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+   - { src: inputrc, dest: /root/.inputrc }
+   - { src: vimrc, dest: /root/.vimrc }
+   - { src: inputrc, dest: /home/vagrant/.inputrc }
+   - { src: vimrc, dest: /home/vagrant/.vimrc }
+   - { src: motd, dest: /etc/motd }
+   - { src: bashrc, dest: /home/vagrant/.bashrc }
+   - { src: aliases, dest: /home/vagrant/.bash_aliases }
+
+- name: Edit some configs
+  lineinfile:
+    path: "{{ item.path }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { path: '/etc/ssh/sshd_config', regexp: '^#PrintLastLog yes', line: PrintLastLog no }
+    - { path: '/etc/ssh/sshd_config', regexp: '^#PermitRootLogin prohibit-password', line: "PermitRootLogin {{ permit_root_login }}" }
+
+- name: Others configs
+  lineinfile:
+    path: "{{ item.path }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { path: '/etc/sysctl.conf', line: "vm.overcommit_memory={{ over_commit_memory }}" }
+  #ignore_errors: yes
+
+- name: Set new welcome message  
+  file:
+    path: /etc/update-motd.d/
+    state: absent
+  become: yes
