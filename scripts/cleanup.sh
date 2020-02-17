@@ -27,16 +27,8 @@ dpkg --list \
     | grep -- '-dev$' \
     | xargs apt-get -y purge;
 
-# Delete X11 libraries
-apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
-apt-get -y purge gcc g++;
-
-# Delete obsolete networking
-apt-get -y purge ppp pppconfig pppoeconf;
-
 # Delete oddities
 apt-get -y purge popularity-contest;
-apt-get -y purge installation-report;
 
 # truncate any logs that have built up during the install
 find /var/log -type f -exec truncate --size=0 {} \;
@@ -67,6 +59,9 @@ rm -f /EMPTY
 
 sudo dpkg --purge --force-all installation-report || true
 sudo journalctl --vacuum-size=100M -q
+
+# remove generated cache
+sudo rm -rf /var/cache/apt/*
 
 # Add `sync` so Packer doesn't quit too early, before the large file is deleted.
 sync
