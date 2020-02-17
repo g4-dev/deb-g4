@@ -32,8 +32,11 @@
   with_items:
     - { path: '/etc/sysctl.conf', line: "vm.overcommit_memory={{ over_commit_memory }}" }
 
-- name: Set new welcome message  
+- name: remove old motd
   file:
     path: /etc/update-motd.d/
     state: absent
   become: yes
+
+
+

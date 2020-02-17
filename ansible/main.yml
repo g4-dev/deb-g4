@@ -4,5 +4,5 @@
   gather_facts: yes
 
   roles:
+    - role: packer
     - role: basics
-    # - role: packer # enable to include vbox guest additions in VM
