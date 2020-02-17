@@ -66,7 +66,7 @@
       "guest_additions_mode": "disable",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-debian-10-amd64",
+      "vm_name": "deb-g4",
       "vboxmanage": [
         [
           "modifyvm",

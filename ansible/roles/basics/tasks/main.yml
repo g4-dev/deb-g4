@@ -31,6 +31,7 @@
     line: "{{ item.line }}"
   with_items:
     - { path: '/etc/sysctl.conf', line: "vm.overcommit_memory={{ over_commit_memory }}" }
+    - { path: '/etc/systemd/journald.conf', line: "SystemMaxUse=100M" }
 
 - name: remove old motd
   file:
@@ -38,5 +39,21 @@
     state: absent
   become: yes
 
+# final clean
+- name: Remove dependencies that are no longer required
+  apt:
+      autoremove: yes
+      purge: yes
+      force: yes
+      update_cache: true
+  become: yes
+  tags:
+      - system
 
+- name: Clean up apt.
+  command: "{{ item }}"
+  changed_when: false
+  with_items:
+      - apt-get -y autoremove
+      - apt-get -y clean
 
