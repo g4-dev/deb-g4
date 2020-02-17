@@ -6,3 +6,4 @@
   roles:
     - role: packer
     - role: basics
+    - role: security
