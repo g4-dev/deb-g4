@@ -33,4 +33,5 @@ if [ "x${swapuuid}" != "x" ]; then
     /sbin/mkswap -U "$swapuuid" "$swappart";
 fi
 
-sync;
+sudo sync;
+sudo sync;

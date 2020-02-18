@@ -50,18 +50,49 @@ apt-get -y clean;
 apt autoremove
 apt update
 
+sudo dpkg --purge --force-all installation-report || true
+sudo journalctl --vacuum-size=50M -q
+
 # Delete unneeded files.
 rm -f /home/vagrant/*.sh
+
+#clear audit logs
+if [ -f /var/log/audit/audit.log ]; then
+  sudo bash -c "cat /dev/null > /var/log/audit/audit.log"
+fi
+if [ -f /var/log/wtmp ]; then
+  sudo bash -c "cat /dev/null > /var/log/wtmp"
+fi
+if [ -f /var/log/lastlog ]; then
+  sudo bash -c "cat /dev/null > /var/log/lastlog"
+fi
+
+#cleanup persistent udev rules
+if [ -f /etc/udev/rules.d/70-persistent-net.rules ]; then
+  sudo rm /etc/udev/rules.d/70-persistent-net.rules
+fi
+
+#cleanup /tmp directories
+sudo rm -rf /tmp/*
+sudo rm -rf /var/tmp/*
+# remove generated cache
+sudo rm -rf /var/cache/apt/*
+
+#cleanup current ssh keys
+sudo rm -f /etc/ssh/ssh_host_*
+
+#reset hostname
+sudo bash -c "cat /dev/null > /etc/hostname"
+
+#cleanup shell history
+history -w
+history -c
 
 # Zero out the rest of the free space using dd, then delete the written file.
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY
 
-sudo dpkg --purge --force-all installation-report || true
-sudo journalctl --vacuum-size=100M -q
-
-# remove generated cache
-sudo rm -rf /var/cache/apt/*
-
 # Add `sync` so Packer doesn't quit too early, before the large file is deleted.
-sync
+sudo sync
+sudo sync
+sudo sync

@@ -1,5 +1,10 @@
 {
   "variables": {
+    "compression_level": "9",
+    "vm_disk_adapter_type": "scsi",
+    "vm_disk_size": "36864",
+    "vm_name": "deb-g4",
+    "cloud_username": "loic-roux-404",
     "cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
     "version": ""
   },
@@ -62,7 +67,8 @@
         "<enter><wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 81920,
+      "disk_size": "{{ user `vm_disk_size` }}",
+      "format": "ova",
       "guest_os_type": "Debian_64",
       "headless": true,
       "http_directory": "http",
@@ -75,12 +81,11 @@
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
+      "ssh_wait_timeout": "60m",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "guest_additions_mode": "disable",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "deb-g4",
+      "vm_name": "{{ user `vm_name` }}",
       "vboxmanage": [
         [
           "modifyvm",
@@ -92,7 +97,7 @@
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "2"
+          "4"
         ]
       ]
     }
@@ -100,6 +105,7 @@
   "post-processors": [
     [
       {
+        "compression_level": "{{ user `compression_level` }}",
         "output": "builds/{{.Provider}}-deb-g4.box",
         "type": "vagrant"
       },
