@@ -1,0 +1,20 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "Debian.yml"
+
+- include_tasks: fail2ban-Debian.yml
+  when:
+    - ansible_os_family == 'Debian'
+    - security_fail2ban_enabled | bool
+
+- name: Ensure fail2ban is running and enabled on boot.
+  service: name=fail2ban state=started enabled=yes
+  when: security_fail2ban_enabled | bool
+
+# SSH
+- include_tasks: ssh.yml
+
+- include_tasks: autoupdate-Debian.yml
+  when:
+    - ansible_os_family == 'Debian'
+    - security_autoupdate_enabled | bool

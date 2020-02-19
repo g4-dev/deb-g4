@@ -36,7 +36,7 @@
     group: vagrant
     mode: 0600
 
-- include_tasks: virtualbox.yml
+#- include_tasks: virtualbox.yml
 
 # Cleanup tasks.
 - name: Remove unneeded packages.
@@ -55,15 +55,15 @@
       - libx11-6
       - libxext6
       - linux-source
+      - python-pip
+      - python-dev
+      - python
+      - python2.7
+      - python3
     state: absent
 
 - name: Remove unneeded packages (by regex).
   shell: "apt-get -y remove '.*-dev$'"
   tags: ['skip_ansible_lint']
 
-- name: Clean up apt.
-  command: "{{ item }}"
-  changed_when: false
-  with_items:
-    - apt-get -y autoremove
-    - apt-get -y clean
+

@@ -42,3 +42,7 @@ Test that the box works correctly, then tear it down with:
 ## Credits
 
 [Jeff Geerling](https://www.jeffgeerling.com)
+
+# garbbage
+
+      //"guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
