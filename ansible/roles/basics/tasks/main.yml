@@ -19,6 +19,8 @@
   with_items:
    - { src: inputrc, dest: /root/.inputrc }
    - { src: vimrc, dest: /root/.vimrc }
+   - { src: bashrc, dest: /root/.bashrc }
+   - { src: aliases, dest: /root/.bash_aliases }
    - { src: inputrc, dest: /home/vagrant/.inputrc }
    - { src: vimrc, dest: /home/vagrant/.vimrc }
    - { src: motd, dest: /etc/motd }

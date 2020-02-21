@@ -16,21 +16,18 @@ count=$(($count-1))
 dd if=/dev/zero of=/boot/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
 rm /boot/whitespace
 
-set +e
-swapuuid="`/sbin/blkid -o value -l -s UUID -t TYPE=swap`";
-case "$?" in
-    2|0) ;;
-    *) exit 1 ;;
-esac
-set -e
+echo "Fill with 0 the swap partition to reduce box size"
+readonly swapuuid=$(/sbin/blkid -o value -l -s UUID -t TYPE=swap)
+readonly swappart=$(readlink -f /dev/disk/by-uuid/"$swapuuid")
+/sbin/swapoff "$swappart"
+dd if=/dev/zero of="$swappart" bs=1M || echo "dd exit code $? is suppressed"
+/sbin/mkswap -U "$swapuuid" "$swappart"
 
-if [ "x${swapuuid}" != "x" ]; then
-    # Whiteout the swap partition to reduce box size
-    # Swap is disabled till reboot
-    swappart="`readlink -f /dev/disk/by-uuid/$swapuuid`";
-    /sbin/swapoff "$swappart";
-    dd if=/dev/zero of="$swappart" bs=1M || echo "dd exit code $? is suppressed";
-    /sbin/mkswap -U "$swapuuid" "$swappart";
-fi
+echo "Fill filesystem with 0 to reduce box size"
+dd if=/dev/zero of=/EMPTY bs=1M
+rm -f /EMPTY
+# Block until the empty file has been removed, otherwise, Packer
+# will try to kill the box while the disk is still full and that's bad
 
-sync;
+# Add `sync` so Packer doesn't quit too early, before the large file is deleted.
+sudo sync;
