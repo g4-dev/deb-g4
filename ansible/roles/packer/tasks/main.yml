@@ -36,7 +36,7 @@
     group: vagrant
     mode: 0600
 
-#- include_tasks: virtualbox.yml
+- include_tasks: virtualbox.yml
 
 # Cleanup tasks.
 - name: Remove unneeded packages.

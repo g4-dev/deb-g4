@@ -5,5 +5,5 @@
 
   roles:
     - role: packer
-    - role: security
+    #- role: security
     - role: basics
